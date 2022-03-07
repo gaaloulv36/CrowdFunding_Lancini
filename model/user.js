@@ -23,6 +23,25 @@ module.exports = {
 
         );
     },
+    /* getUserByemail: (email, callBack) => {
+         con.query(
+             `select * from user_compt where email=?`, [email],
+             (error, result, fields) => {
+                 if (error) {
+                     callBack(error);
+                 }
+                 return callBack(null, result);
+             }
+
+         );
+     },*/
+    selectByEmail: async(email, next) => {
+        let sql = 'SELECT * FROM user_compt WHERE email = ?'
+        con.query(sql, email, (err, result) => {
+            if (err) throw err
+            next(result[0])
+        })
+    },
     getUser: callBack => {
         con.query(
             `select * from user_compt`, [],
@@ -33,5 +52,15 @@ module.exports = {
                 return callBack(null, result);
             });
 
+    },
+    login: (email, motdepass, callBack) => {
+        con.query(
+            `select email, motdepass from user_compt where email = ? and motdepass = ?`, [email, motdepass],
+            (error, result, fields) => {
+                if (error) {
+                    callBack(error);
+                }
+                return callBack(null, result);
+            });
     }
 }

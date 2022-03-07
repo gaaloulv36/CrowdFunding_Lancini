@@ -12,4 +12,3 @@ app.use("/api/user", userR);
 app.use("/api/founder", founderF);
 app.use("/api/investor", investorI);
 app.use("/api/project", projectP);
-/* hello */

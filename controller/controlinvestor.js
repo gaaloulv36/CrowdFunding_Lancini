@@ -49,7 +49,5 @@ module.exports = {
                 data: result
             });
         });
-    }
-
-
+    },
 }
