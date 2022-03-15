@@ -1,24 +1,21 @@
+const res = require("express/lib/response");
 const con = require("../config/db");
 module.exports = {
-    creat: (data, callBack) => {
+    creat: async(data, next) => {
         con.query(
             `insert into user_compt(name, prenom, email, motdepass, tele) values (?,?,?,?,?)`, [data.name, data.prenom, data.email, data.motdepass, data.tele],
             (error, result, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                return callBack(null, result);
-            }
-        );
+                if (error) throw error;
+                next(result)
+            })
+
     },
-    getUserById: (id, callBack) => {
+    getUserById: async(id, next) => {
         con.query(
             `select * from user_compt where id=?`, [id],
             (error, result, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                return callBack(null, result[0]);
+                if (error) throw error;
+                next(result[0]);
             }
 
         );
@@ -42,14 +39,12 @@ module.exports = {
             next(result[0])
         })
     },
-    getUser: callBack => {
+    getUser: async(next) => {
+        let sql = `select * from user_compt`
         con.query(
-            `select * from user_compt`, [],
-            (error, result, fields) => {
-                if (error) {
-                    callBack(error);
-                }
-                return callBack(null, result);
+            sql, (err, result) => {
+                if (err) throw err;
+                next(result)
             });
 
     },
@@ -62,5 +57,19 @@ module.exports = {
                 }
                 return callBack(null, result);
             });
+    },
+    update: async(id, { name, prenom, email, motdepass, tele }, next) => {
+        let sql = `update user_compt SET name=?, prenom=?, email=?, motdepass=?, tele=? where id=?`
+        con.query(sql, [name, prenom, email, motdepass, tele, id], (err, result) => {
+            if (err) throw err;
+            next(result)
+        })
+    },
+    deleted: async(id, next) => {
+        let sql = `delete from user_compt where id=${id}`
+        con.query(sql, (err, result) => {
+            if (err) throw err;
+            next(result)
+        })
     }
 }
