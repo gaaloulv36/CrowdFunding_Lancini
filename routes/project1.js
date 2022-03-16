@@ -1,6 +1,10 @@
 const router3 = require("express").Router();
-const { creatProject, getProjectByIdd, getProjects } = require("../controller/controlproject");
+const { creatProject, getProjectByIdd, getProjects, update, deletee, getByname, getBytype } = require("../controller/controlproject");
 router3.post("/", creatProject);
 router3.get("/:id", getProjectByIdd);
+router3.get("/name/:name", getByname);
+router3.get("/catego/:catego", getBytype);
 router3.get("/", getProjects);
+router3.put("/:id", update);
+router3.delete("/:id", deletee);
 module.exports = router3;

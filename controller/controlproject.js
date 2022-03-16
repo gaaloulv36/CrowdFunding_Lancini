@@ -1,37 +1,18 @@
-const { creat, getProjectById, getProject } = require("../model/project");
+const porjectModule = require("../model/project");
 module.exports = {
     creatProject: (req, res) => {
-        const body = req.body;
-        creat(body, (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).json({
-                    success: 0,
-                    message: "Data base connection error"
-                });
-            }
-            return res.status(200).json({
-                message: "project saved successfuly",
-                data: body
-            });
-        });
+        //  if(!req.id)
+        //        return res.status(400).json({success : false, message : "Access denied, please login."})
+        porjectModule.creat(req.body, message => { res.json({ success: true, message }) })
     },
     getProjectByIdd: (req, res) => {
-        const id = req.params.id;
-        getProjectById(id, (err, result) => {
+        const id1 = req.params.id;
+        porjectModule.getProjectById(id1, (err, result) => {
             if (err) {
-                console.log(err);
+                console.log("no data");
                 return;
             }
-            //console.log(result)
-            if (!result) {
-                return res.status(404).json({
-                    success: 0,
-                    message: "there is now data to display"
-                });
-
-            }
-            return res.status(200).json({
+            res.json({
                 message: `project with id=${id}`,
                 data: result
             });
@@ -39,17 +20,22 @@ module.exports = {
         });
     },
     getProjects: (req, res) => {
-        getProject((err, result) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            return res.status(200).json({
-                message: "getting all projects",
-                data: result
-            });
-        });
-    }
-
-
+        porjectModule.getProject((result) => { res.json(result) })
+    },
+    update: (req, res) => {
+        if (!req.userid)
+            return res.status(400).json({ success: false, message: "Access denied, please login." })
+        porjectModule.updateProject(req.params.id, req.body, result => { res.json({ success: true, result }) })
+    },
+    deletee: (req, res) => {
+        //   if (!req.userid)
+        //    return res.status(400).json({ success: false, message: "Access denied, please login." })
+        porjectModule.deleteProject(req.params.id, result => { res.json({ success: true, result }) })
+    },
+    getByname: (req, res) => {
+        porjectModule.getProjectByname(req.params.name, result => { res.json(result) })
+    },
+    getBytype: (req, res) => {
+        porjectModule.getProjectByType(req.params.catego, result => { res.json(result) })
+    },
 }

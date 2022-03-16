@@ -1,9 +1,9 @@
 const userModel = { creat, getUserById, getUser, getUserByemail, login, update, deleted } = require("../model/user");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken')
-const config = require('../config/default')
-    //const { config } = require("dotenv");
-    //const userMod = require("../model/user");
+const jwt = require('jsonwebtoken');
+const config = require('../config/default');
+//const { config } = require("dotenv");
+//const userMod = require("../model/user");
 module.exports = {
     creatUser: (req, res) => {
         const body = req.body;

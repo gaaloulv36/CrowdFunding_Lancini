@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const con = require("../config/db");
 module.exports = {
     creat: async(data, next) => {
