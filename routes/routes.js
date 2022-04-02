@@ -9,5 +9,5 @@ router.get("/", conte.get);
 //router.get("/:email", getUserByEemail);
 router.post("/login", auth.login);
 router.put('/:id', userupdate);
-router.delete('/:id', auto, DeleteUser)
+router.delete('/:id', /*auto*/ DeleteUser)
 module.exports = router;

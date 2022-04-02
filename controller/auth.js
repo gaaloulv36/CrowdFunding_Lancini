@@ -20,10 +20,11 @@ module.exports = {
                     if (!result)
                         return res.status(400).json({ success: false, message: "Bad credantials" })
                     selectByEmail(user.email, user => {
-                        jwt.sign({ id: user.id },
+                        jwt.sign({ id: user.id, name: user.name },
                             config.get("jwtSecret"), { expiresIn: config.get("tokenExpire") },
                             (err, token) => {
                                 if (err) throw err
+                                res.header('Authorization', 'Bearer ' + token);
                                 res.status(200).json({
                                     success: true,
                                     token,
